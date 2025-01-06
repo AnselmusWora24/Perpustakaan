@@ -1,0 +1,102 @@
+class Buku:
+    def __init__(self, judul, penulis):
+        self.judul = judul
+        self.penulis = penulis
+        self.status = "tersedia"
+
+    def __str__(self):
+        return f"{self.judul} oleh {self.penulis} - Status: {self.status}"
+
+
+class Perpustakaan:
+    def __init__(self):
+        self.buku_list = []
+
+    def tambah_buku(self, judul, penulis):
+        buku_baru = Buku(judul, penulis)
+        self.buku_list.append(buku_baru)
+        print(f"Buku '{judul}' berhasil ditambahkan.")
+
+    def tampilkan_buku(self):
+        if not self.buku_list:
+            print("Tidak ada buku di perpustakaan.")
+            return
+        for buku in self.buku_list:
+            print(buku)
+
+    def edit_buku(self, judul_lama, judul_baru, penulis_baru):
+        for buku in self.buku_list:
+            if buku.judul == judul_lama:
+                buku.judul = judul_baru
+                buku.penulis = penulis_baru
+                print(f"Buku '{judul_lama}' berhasil diedit menjadi '{judul_baru}'.")
+                return
+        print(f"Buku '{judul_lama}' tidak ditemukan.")
+
+    def hapus_buku(self, judul):
+        for buku in self.buku_list:
+            if buku.judul == judul:
+                self.buku_list.remove(buku)
+                print(f"Buku '{judul}' berhasil dihapus.")
+                return
+        print(f"Buku '{judul}' tidak ditemukan.")
+
+    def pinjam_buku(self, judul):
+        for buku in self.buku_list:
+            if buku.judul == judul:
+                if buku.status == "tersedia":
+                    buku.status = "dipinjam"
+                    print(f"Buku '{judul}' berhasil dipinjam.")
+                    return
+                else:
+                    print(f"Buku '{judul}' sedang dipinjam.")
+                    return
+        print(f"Buku '{judul}' tidak ditemukan.")
+
+
+def main():
+    perpustakaan = Perpustakaan()
+
+    while True:
+        print("\nMenu Perpustakaan:")
+        print("1. Tambah Buku")
+        print("2. Tampilkan Buku")
+        print("3. Edit Buku")
+        print("4. Hapus Buku")
+        print("5. Pinjam Buku")
+        print("6. Keluar")
+
+        pilihan = input("Pilih menu (1-6): ")
+
+        if pilihan == '1':
+            judul = input("Masukkan judul buku: ")
+            penulis = input("Masukkan penulis buku: ")
+            perpustakaan.tambah_buku(judul, penulis)
+
+        elif pilihan == '2':
+            perpustakaan.tampilkan_buku()
+
+        elif pilihan == '3':
+            judul_lama = input("Masukkan judul buku yang ingin diedit: ")
+            judul_baru = input("Masukkan judul baru: ")
+            penulis_baru = input("Masukkan penulis baru: ")
+            perpustakaan.edit_buku(judul_lama, judul_baru, penulis_baru)
+
+        elif pilihan == '4':
+            judul = input("Masukkan judul buku yang ingin dihapus: ")
+            perpustakaan.hapus_buku(judul)
+
+        elif pilihan == '5':
+            judul = input("Masukkan judul buku yang ingin dipinjam: ")
+            perpustakaan.pinjam_buku(judul)
+
+        elif pilihan == '6':
+            print("Terima kasih telah menggunakan aplikasi perpustakaan.")
+            break
+
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi.")
+
+
+if __name__ == "__main__":
+    main()
